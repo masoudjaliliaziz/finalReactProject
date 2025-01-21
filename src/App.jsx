@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import styled from "styled-components";
+import GlobalStyles from "./styles/GlobalStyles";
+import Button from "./ui/Button";
+import Input from "./ui/Input";
+import Heading from "./ui/Headind";
+import Row from "./ui/Row";
+const H1 = styled.h1`
+  font-size: 30px;
+  font-weight: 600;
+  background-color: yellow;
+  border-radius: 5px;
+  text-align: center;
+`;
 
+const StyledApp = styled.div`
+  padding: 20px;
+`;
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <GlobalStyles />
+      <StyledApp>
+        <Row type={"horizontal"}>
+          <Heading as={`h1`}>the wild oaisis</Heading>
+          <Heading as={`h2`}>check in & check out</Heading>
+          <Button variation="primary" size="medium">
+            check in
+          </Button>
+          <Button variation="secendary" size="small">
+            check out
+          </Button>
+        </Row>
+        <Row type={"vertical"}>
+          <Heading as={`h3`}>forms</Heading>
+          <Input type="number" placeholder="Number of guests" />
+          <Input type="number" placeholder="Number of guests" />
+        </Row>
+      </StyledApp>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
