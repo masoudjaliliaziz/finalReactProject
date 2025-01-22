@@ -4,7 +4,7 @@ import GlobalStyles from "./styles/GlobalStyles";
 <<<<<<< Updated upstream
 import Button from "./ui/Button";
 import Input from "./ui/Input";
-import Heading from "./ui/Headind";
+import Heading from "./ui/Heading";
 import Row from "./ui/Row";
 const H1 = styled.h1`
   font-size: 30px;
