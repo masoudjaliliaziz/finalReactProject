@@ -1,48 +1,19 @@
-import React from "react";
-import styled from "styled-components";
 import GlobalStyles from "./styles/GlobalStyles";
-<<<<<<< Updated upstream
-import Button from "./ui/Button";
-import Input from "./ui/Input";
-import Heading from "./ui/Headind";
-import Row from "./ui/Row";
-const H1 = styled.h1`
-  font-size: 30px;
-  font-weight: 600;
-  background-color: yellow;
-  border-radius: 5px;
-  text-align: center;
-`;
-
-const StyledApp = styled.div`
-  padding: 20px;
-`;
-=======
 import AppLayout from "./ui/AppLayout";
->>>>>>> Stashed changes
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import Dashboard from "./pages/Dashboard.jsx";
+import Account from "./pages/Account.jsx";
+import Bookings from "./pages/Bookings.jsx";
+import Cabins from "./pages/Cabins.jsx";
+import Users from "./pages/Users.jsx";
+import Settings from "./pages/Settings.jsx";
+import Login from "./pages/Login.jsx";
+import PageNotFound from "./pages/PageNotFound.jsx";
+
 function App() {
   return (
     <>
       <GlobalStyles />
-<<<<<<< Updated upstream
-      <StyledApp>
-        <Row type={"horizontal"}>
-          <Heading as={`h1`}>the wild oaisis</Heading>
-          <Heading as={`h2`}>check in & check out</Heading>
-          <Button variation="primary" size="medium">
-            check in
-          </Button>
-          <Button variation="secendary" size="small">
-            check out
-          </Button>
-        </Row>
-        <Row type={"vertical"}>
-          <Heading as={`h3`}>forms</Heading>
-          <Input type="number" placeholder="Number of guests" />
-          <Input type="number" placeholder="Number of guests" />
-        </Row>
-      </StyledApp>
-=======
       <BrowserRouter>
         <Routes>
           <Route element={<AppLayout />}>
@@ -52,12 +23,12 @@ function App() {
             <Route path="booking" element={<Bookings />} />
             <Route path="cabins" element={<Cabins />} />
             <Route path="users" element={<Users />} />
+            <Route path="setting" element={<Settings />} />
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
->>>>>>> Stashed changes
     </>
   );
 }
