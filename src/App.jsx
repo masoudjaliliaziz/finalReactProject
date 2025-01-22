@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import GlobalStyles from "./styles/GlobalStyles";
+<<<<<<< Updated upstream
 import Button from "./ui/Button";
 import Input from "./ui/Input";
 import Heading from "./ui/Headind";
@@ -16,10 +17,14 @@ const H1 = styled.h1`
 const StyledApp = styled.div`
   padding: 20px;
 `;
+=======
+import AppLayout from "./ui/AppLayout";
+>>>>>>> Stashed changes
 function App() {
   return (
     <>
       <GlobalStyles />
+<<<<<<< Updated upstream
       <StyledApp>
         <Row type={"horizontal"}>
           <Heading as={`h1`}>the wild oaisis</Heading>
@@ -37,6 +42,22 @@ function App() {
           <Input type="number" placeholder="Number of guests" />
         </Row>
       </StyledApp>
+=======
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AppLayout />}>
+            <Route index element={<Navigate replace to={"dashboard"} />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="account" element={<Account />} />
+            <Route path="booking" element={<Bookings />} />
+            <Route path="cabins" element={<Cabins />} />
+            <Route path="users" element={<Users />} />
+          </Route>
+          <Route path="login" element={<Login />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </BrowserRouter>
+>>>>>>> Stashed changes
     </>
   );
 }
