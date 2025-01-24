@@ -11,6 +11,11 @@ import { createCabin } from "../../services/apiCabins";
 import toast from "react-hot-toast";
 import FormRow from "../../ui/FormRow";
 
+const Error = styled.span`
+  font-size: 1.4rem;
+  color: var(--color-red-700);
+`;
+
 function CreateCabinForm() {
   const { register, handleSubmit, reset, getValues, formState } = useForm();
   const { errors } = formState;
@@ -26,7 +31,7 @@ function CreateCabinForm() {
   });
 
   function onSubmit(data) {
-    mutate(data);
+    mutate({ ...data, image: data.image[0] });
   }
 
   function onError(errors) {
@@ -37,6 +42,7 @@ function CreateCabinForm() {
     <Form onSubmit={handleSubmit(onSubmit, onError)}>
       <FormRow label={"Cabin name"} error={errors?.name?.message}>
         <Input
+          disabled={isPending}
           type="text"
           id="name"
           {...register("name", {
@@ -47,6 +53,7 @@ function CreateCabinForm() {
 
       <FormRow label={"Maximum capacity"} error={errors?.maxCapacity?.message}>
         <Input
+          disabled={isPending}
           type="number"
           id="maxCapacity"
           {...register("maxCapacity", {
@@ -61,6 +68,7 @@ function CreateCabinForm() {
 
       <FormRow label={"Regular price"} error={errors?.regularPrice?.message}>
         <Input
+          disabled={isPending}
           type="number"
           id="regularPrice"
           {...register("regularPrice", {
@@ -71,6 +79,7 @@ function CreateCabinForm() {
 
       <FormRow label={"Discount"} error={errors?.discount?.message}>
         <Input
+          disabled={isPending}
           type="number"
           id="discount"
           defaultValue={0}
@@ -88,6 +97,7 @@ function CreateCabinForm() {
         error={errors?.description?.message}
       >
         <Textarea
+          disabled={isPending}
           type="number"
           id="description"
           defaultValue=""
@@ -98,7 +108,14 @@ function CreateCabinForm() {
       </FormRow>
 
       <FormRow label={"Cabin photo"}>
-        <FileInput id="image" accept="image/*" />
+        <FileInput
+          disabled={isPending}
+          id="image"
+          accept="image/*"
+          {...register("image", {
+            required: "pls insert the photo",
+          })}
+        />
       </FormRow>
 
       <FormRow>
