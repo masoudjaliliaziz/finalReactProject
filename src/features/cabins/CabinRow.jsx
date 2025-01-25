@@ -1,5 +1,9 @@
+import { useState } from "react";
+import CreateCabinForm from "./CreateCabinForm";
+import { useDeleteRowCabin } from "./hooks/useDeleteRowCabin";
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
+
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
@@ -38,27 +42,10 @@ const Discount = styled.div`
   font-weight: 500;
   color: var(--color-green-700);
 `;
-import React, { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCabin } from "../../services/apiCabins";
-import toast from "react-hot-toast";
-import CreateCabinForm from "./CreateCabinForm";
 
 function CabinRow({ cabin }) {
+  const { deleteCabin, isDeleting } = useDeleteRowCabin();
   const [showEditForm, setShowEditForm] = useState(false);
-  const queryClient = useQueryClient();
-  const { mutate, isPending: isDeleting } = useMutation({
-    mutationFn: deleteCabin,
-    onSuccess: () => {
-      toast.success("cabin has deleted successfully");
-      queryClient.invalidateQueries({
-        queryKey: ["cabins"],
-      });
-    },
-    onError: (err) => {
-      toast.error(err.message);
-    },
-  });
 
   const {
     id: cabinId,
@@ -76,7 +63,12 @@ function CabinRow({ cabin }) {
         <Cabin>{name}</Cabin>
         <div>Fits up to {maxCapacity} quests</div>
         <Price>{formatCurrency(regularPrice)}</Price>
-        <Discount>{formatCurrency(discount)}</Discount>
+        {discount > 0 ? (
+          <Discount>{formatCurrency(discount)}</Discount>
+        ) : (
+          <span>&mdash;</span>
+        )}
+
         <div>
           <button
             onClick={() => {
@@ -85,7 +77,7 @@ function CabinRow({ cabin }) {
           >
             Edit
           </button>
-          <button disabled={isDeleting} onClick={() => mutate(cabinId)}>
+          <button disabled={isDeleting} onClick={() => deleteCabin(cabinId)}>
             delete
           </button>
         </div>
