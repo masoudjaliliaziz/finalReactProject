@@ -11,7 +11,7 @@ import FormRow from "../../ui/FormRow";
 import { useCreateCabin } from "./hooks/useCreateCabin";
 import { useEditCabin } from "./hooks/useEditCabin";
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onClose }) {
   const { id: editId, ...editValues } = cabinToEdit;
   const isEditSession = Boolean(editId);
 
@@ -30,6 +30,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         { newCabinData: { ...data, image }, id: editId },
         {
           onSuccess: () => {
+            onClose?.();
             reset();
           },
         }
@@ -39,6 +40,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         { ...data, image: image },
         {
           onSuccess: () => {
+            onClose?.();
             reset();
           },
         }
@@ -52,7 +54,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   const isWorking = createIsPending || editIsPending;
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onClose ? "modal" : "regular"}
+    >
       <FormRow label={"Cabin name"} error={errors?.name?.message}>
         <Input
           disabled={isWorking}
@@ -132,7 +137,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       </FormRow>
 
       <FormRow>
-        <Button variation="secondary" type="reset">
+        <Button onClick={() => onClose?.()} variation="secondary" type="reset">
           Cancel
         </Button>
         <Button disabled={isWorking}>

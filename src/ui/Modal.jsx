@@ -48,3 +48,24 @@ const Button = styled.button`
     color: var(--color-grey-500);
   }
 `;
+
+import React from "react";
+import CreateCabinForm from "../features/cabins/CreateCabinForm";
+import { HiXMark } from "react-icons/hi2";
+import { createPortal } from "react-dom";
+
+function Modal({ onClose }) {
+  return createPortal(
+    <Overlay>
+      <StyledModal>
+        <Button onClick={onClose}>
+          <HiXMark />
+        </Button>
+        <CreateCabinForm onClose={onClose} />
+      </StyledModal>
+    </Overlay>,
+    document.body
+  );
+}
+
+export default Modal;
