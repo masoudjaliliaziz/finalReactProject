@@ -49,19 +49,42 @@ const Button = styled.button`
   }
 `;
 
-import React from "react";
+import React, {
+  cloneElement,
+  createContext,
+  useContext,
+  useState,
+} from "react";
 import CreateCabinForm from "../features/cabins/CreateCabinForm";
 import { HiXMark } from "react-icons/hi2";
 import { createPortal } from "react-dom";
 
-function Modal({ onClose }) {
+const ModalContext = createContext();
+
+function Modal({ children }) {
+  const [openName, setOpenName] = useState("");
+  const close = () => setOpenName("");
+  const open = () => setOpenName;
+
+  return <ModalContext.Provider></ModalContext.Provider>;
+}
+
+function Open({ children, opens }) {
+  const { open } = useContext(ModalContext);
+  return cloneElement(children, { onClick: () => open(opens) });
+}
+
+function Window({ children, name }) {
+  const { openName, close } = useContext(ModalContext);
+  if (name !== openName) return null;
+
   return createPortal(
     <Overlay>
       <StyledModal>
-        <Button onClick={onClose}>
+        <Button onClick={close}>
           <HiXMark />
         </Button>
-        <CreateCabinForm onClose={onClose} />
+        <div>{cloneElement(children, { onClose: close })}</div>
       </StyledModal>
     </Overlay>,
     document.body
