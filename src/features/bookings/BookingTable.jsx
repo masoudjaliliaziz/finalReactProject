@@ -4,6 +4,7 @@ import Menus from "../../ui/Menus";
 import { useBookings } from "./hooks/useBookings";
 import Empty from "../../ui/Empty";
 import Spinner from "../../ui/Spinner";
+import Pagination from "../../ui/Pagination";
 function BookingTable() {
   const { isLoading, bookings } = useBookings();
   if (isLoading) return <Spinner />;
@@ -26,6 +27,9 @@ function BookingTable() {
             <BookingRow key={booking.id} booking={booking} />
           )}
         />
+        <Table.Footer>
+          <Pagination count={15} />
+        </Table.Footer>
       </Table>
     </Menus>
   );
