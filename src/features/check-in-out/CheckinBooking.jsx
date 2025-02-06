@@ -6,8 +6,13 @@ import Heading from "../../ui/Heading";
 import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
-
+import CheckBox from "./../../ui/Checkbox";
 import { useMoveBack } from "../../hooks/useMoveBack";
+import { useBooking } from "../bookings/hooks/useCabins";
+import Spinner from "../../ui/Spinner";
+import { useEffect, useState } from "react";
+import { formatCurrency } from "../../utils/helpers";
+import { useCheckin } from "./useCheckin";
 
 const Box = styled.div`
   /* Box */
@@ -18,10 +23,14 @@ const Box = styled.div`
 `;
 
 function CheckinBooking() {
+  const { booking, isLoading } = useBooking();
+  const [confirmPaid, setConfirmPaid] = useState(false);
+  useEffect(() => {
+    setConfirmPaid(booking?.isPaid ?? false);
+  }, [booking]);
   const moveBack = useMoveBack();
-
-  const booking = {};
-
+  const { checkin, isCheckingIn } = useCheckin();
+  if (isLoading) return <Spinner />;
   const {
     id: bookingId,
     guests,
@@ -31,7 +40,10 @@ function CheckinBooking() {
     numNights,
   } = booking;
 
-  function handleCheckin() {}
+  function handleCheckin() {
+    if (!confirmPaid) return;
+    checkin(bookingId);
+  }
 
   return (
     <>
@@ -41,9 +53,21 @@ function CheckinBooking() {
       </Row>
 
       <BookingDataBox booking={booking} />
-
+      <Box>
+        <CheckBox
+          checked={confirmPaid}
+          onChange={() => setConfirmPaid((confirm) => !confirm)}
+          disabled={confirmPaid || isCheckingIn}
+          id={"confirm"}
+        >
+          I confirm that {guests.fullName} has paid the toatal amount of{" "}
+          {formatCurrency(totalPrice)}
+        </CheckBox>
+      </Box>
       <ButtonGroup>
-        <Button onClick={handleCheckin}>Check in booking #{bookingId}</Button>
+        <Button disabled={!confirmPaid || isCheckingIn} onClick={handleCheckin}>
+          Check in booking #{bookingId}
+        </Button>
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>
