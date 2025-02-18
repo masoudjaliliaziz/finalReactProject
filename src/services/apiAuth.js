@@ -29,3 +29,18 @@ export async function logout() {
     throw new Error(error.message);
   }
 }
+
+export async function signup({ fullName, email, password }) {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      fullName,
+      avatar: "",
+    },
+  });
+  if (error) {
+    throw new Error(error.message);
+  }
+  return data;
+}
