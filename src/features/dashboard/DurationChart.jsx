@@ -151,7 +151,7 @@ function DurationChart({ confirmedStays }) {
       <ResponsiveContainer width={"100%"} height={240}>
         <PieChart>
           <Pie
-            data={startDataLight}
+            data={data}
             nameKey="duration"
             dataKey="value"
             innerRadius={85}
